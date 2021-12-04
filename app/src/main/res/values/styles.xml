@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="signUp_textView_Style">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">50dp</item>
+
+        <item name="android:layout_marginTop">16dp</item>
+
+        <item name="android:background">@color/white</item>
+        <item name="android:ems">10</item>
+        <item name="android:paddingLeft">16dp</item>
+    </style>
+</resources>
