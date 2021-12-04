@@ -1,8 +1,12 @@
 package com.example.messenger
 
+import android.app.Activity
 import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
@@ -16,7 +20,7 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var password : EditText
     private lateinit var registerButton : Button
     private lateinit var alreadyHaveAnAccount : TextView
-
+    private lateinit var selectPhotoButton: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -27,20 +31,44 @@ class RegisterActivity : AppCompatActivity() {
         password = findViewById(R.id.password_editText_register)
         registerButton = findViewById(R.id.register_button_register)
         alreadyHaveAnAccount = findViewById(R.id.already_have_an_acoount_register)
-
-
+        selectPhotoButton = findViewById(R.id.selectphoto_button_register)
 
         registerButton.setOnClickListener {
-
             performRegister()
         }
 
+        //Photo selector intent
+        selectPhotoButton.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            startActivityForResult(intent ,0)
+        }
 
+        // Move to LoginActivity using intent
         alreadyHaveAnAccount.setOnClickListener {
             val intent = Intent(this , LoginActivity::class.java)
             startActivity(intent)
         }
 
+    }
+
+    private var selectedPhotoUri: Uri? = null
+    //Adding photo to the button which is selected.
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == 0 && resultCode == Activity.RESULT_OK && data != null)
+        {   // Proceed and check what the selected image was...
+            // getting the uri of selected photo
+             selectedPhotoUri = data.data
+            //getting image using above uri
+            val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedPhotoUri)
+            val bitmapDrawable = BitmapDrawable(bitmap)
+
+            //Adding photo to button
+            selectPhotoButton.setBackgroundDrawable(bitmapDrawable)
+
+
+        }
     }
 
     //Performs registration of user
@@ -73,6 +101,8 @@ class RegisterActivity : AppCompatActivity() {
                 Toast.makeText(this, "Login successful created user with uid: ${it.result?.user?.uid} "
                                           , Toast.LENGTH_SHORT).show()
 
+                uploadImageToFirebaseStorage()
+
             }
             .addOnFailureListener {
                 Log.d("Main", "Failed to create user ${it.message}")
@@ -80,6 +110,10 @@ class RegisterActivity : AppCompatActivity() {
                 Toast.makeText(this, "Failed to create user ${it.message}", Toast.LENGTH_SHORT).show()
 
             }
+
+    }
+
+    private fun uploadImageToFirebaseStorage() {
 
     }
 
