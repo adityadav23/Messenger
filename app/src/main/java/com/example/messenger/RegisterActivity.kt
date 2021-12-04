@@ -13,6 +13,8 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.storage.FirebaseStorage
+import java.util.*
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var userName : EditText
@@ -114,6 +116,19 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun uploadImageToFirebaseStorage() {
+        if(selectedPhotoUri == null) return
+
+        val filename = UUID.randomUUID().toString()
+        val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
+
+        ref.putFile(selectedPhotoUri!!)
+            .addOnSuccessListener {
+                Log.d("RegisterActivity",
+                      "Successfully uploaded image: ${it.metadata?.path}")
+                Toast.makeText(this, "Successfully uploaded image: ${it.metadata?.path}"
+                    , Toast.LENGTH_SHORT).show()
+
+            }
 
     }
 
