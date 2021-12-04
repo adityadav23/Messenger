@@ -31,28 +31,59 @@ class MainActivity : AppCompatActivity() {
 
 
         registerButton.setOnClickListener {
-            val userNameInput = userName.text.toString()
-            val emailInput = email.text.toString()
-            val passwordInput = password.text.toString()
 
-            //Firebase Authentication to create a user with email and password
-            FirebaseAuth.getInstance().createUserWithEmailAndPassword(emailInput,passwordInput)
-                .addOnCompleteListener {
-                    if(!it.isSuccessful) return@addOnCompleteListener
-
-                    //else if Successful
-                    Log.d("Main", "Login successful created user with uid: ${it.result?.user?.uid} ")
-                }
-
+            performRegister()
         }
 
+
         alreadyHaveAnAccount.setOnClickListener {
-           val intent = Intent(this , LoginActivity::class.java)
+            val intent = Intent(this , LoginActivity::class.java)
             startActivity(intent)
         }
 
+    }
+
+    //Performs registration of user
+    private fun performRegister(){
+        val userNameInput = userName.text.toString()
+        val emailInput = email.text.toString()
+        val passwordInput = password.text.toString()
+
+        //Check if email or password is empty
+        if(emailInput.isEmpty() && passwordInput.isEmpty() ){
+            Toast.makeText(this, " Please enter Email Address and Password", Toast.LENGTH_SHORT).show()
+            return
+        }
+        if(emailInput.isEmpty() ){
+            Toast.makeText(this, " Please enter Email Address", Toast.LENGTH_SHORT).show()
+            return
+        }
+        if(passwordInput.isEmpty() ){
+            Toast.makeText(this, " Please enter Password", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        //Firebase Authentication to create a user with email and password
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(emailInput,passwordInput)
+            .addOnCompleteListener {
+                if(!it.isSuccessful) return@addOnCompleteListener
+
+                //else if Successful
+                Log.d("Main", "Login successful created user with uid: ${it.result?.user?.uid} ")
+                Toast.makeText(this, "Login successful created user with uid: ${it.result?.user?.uid} "
+                                          , Toast.LENGTH_SHORT).show()
+
+            }
+            .addOnFailureListener {
+                Log.d("Main", "Failed to create user ${it.message}")
+
+                Toast.makeText(this, "Failed to create user ${it.message}", Toast.LENGTH_SHORT).show()
+
+            }
 
     }
 
-
 }
+
+
+
