@@ -3,10 +3,12 @@ package com.example.messenger
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
     private lateinit var userName : EditText
@@ -26,14 +28,22 @@ class MainActivity : AppCompatActivity() {
         registerButton = findViewById(R.id.register_button_register)
         alreadyHaveAnAccount = findViewById(R.id.already_have_an_acoount_register)
 
+
+
         registerButton.setOnClickListener {
             val userNameInput = userName.text.toString()
-            val emailInput = userName.text.toString()
-            val passwordInput = userName.text.toString()
-            Toast.makeText(
-                applicationContext,
-                "$userNameInput :$emailInput :$passwordInput", Toast.LENGTH_SHORT
-            ).show()
+            val emailInput = email.text.toString()
+            val passwordInput = password.text.toString()
+
+            //Firebase Authentication to create a user with email and password
+            FirebaseAuth.getInstance().createUserWithEmailAndPassword(emailInput,passwordInput)
+                .addOnCompleteListener {
+                    if(!it.isSuccessful) return@addOnCompleteListener
+
+                    //else if Successful
+                    Log.d("Main", "Login successful created user with uid: ${it.result?.user?.uid} ")
+                }
+
         }
 
         alreadyHaveAnAccount.setOnClickListener {
