@@ -10,13 +10,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Messenger">
         <activity
+            android:name=".NewMessageActivity"
+            android:exported="false" >
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".NewMessageActivity"/>
+        </activity>
+        <activity
             android:name=".LatestMessagesActivity"
             android:exported="true">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
         <activity
@@ -24,8 +30,12 @@
             android:exported="false" />
         <activity
             android:name=".RegisterActivity"
-            android:exported="false">
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

@@ -9,6 +9,8 @@
         <entry key="app/src/main/res/layout/activity_latest_messages.xml" value="0.2171875" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.2171875" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.203125" />
+        <entry key="app/src/main/res/layout/activity_new_message.xml" value="0.2171875" />
+        <entry key="app/src/main/res/menu/nav_menu.xml" value="0.2171875" />
       </map>
     </option>
   </component>
