@@ -160,6 +160,12 @@ class RegisterActivity : AppCompatActivity() {
                 Toast.makeText(this,"Data added to firebaseDatabase ",
                     Toast.LENGTH_SHORT)
                     .show()
+
+                val intent = Intent(this , LatestMessagesActivity::class.java)
+                //Clearing back stack activities
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+
             }
             .addOnFailureListener {
                 Toast.makeText(this, "Failed to upload FirebaseDatabase: ${it.message}}"
