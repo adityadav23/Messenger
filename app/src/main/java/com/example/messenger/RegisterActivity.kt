@@ -12,7 +12,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.net.toUri
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import java.util.*
 
@@ -99,8 +101,8 @@ class RegisterActivity : AppCompatActivity() {
                 if(!it.isSuccessful) return@addOnCompleteListener
 
                 //else if Successful
-                Log.d("Main", "Login successful created user with uid: ${it.result?.user?.uid} ")
-                Toast.makeText(this, "Login successful created user with uid: ${it.result?.user?.uid} "
+                Log.d("Main", "Register successful created user with uid: ${it.result?.user?.uid} ")
+                Toast.makeText(this, "Register successful created user with uid: ${it.result?.user?.uid} "
                                           , Toast.LENGTH_SHORT).show()
 
                 uploadImageToFirebaseStorage()
@@ -128,11 +130,43 @@ class RegisterActivity : AppCompatActivity() {
                 Toast.makeText(this, "Successfully uploaded image: ${it.metadata?.path}"
                     , Toast.LENGTH_SHORT).show()
 
+                //File location
+                ref.downloadUrl.addOnSuccessListener {
+                    Log.d("RegisterActivity", "File Location :$it")
+                    saveUserToFirebaseDatabase(it.toString())
+                }
+            }
+            .addOnFailureListener{
+
+                Toast.makeText(this, "Failed to upload image : ${it.message}"
+                    , Toast.LENGTH_SHORT).show()
+            }
+
+    }
+
+    private fun saveUserToFirebaseDatabase(profileImageUrl : String) {
+        val uid = FirebaseAuth.getInstance().uid ?: ""
+        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
+
+        val user = User(uid, userName.text.toString(), profileImageUrl)
+
+        ref.setValue(user)
+            .addOnSuccessListener {
+                Toast.makeText(this,"Data added to firebaseDatabase ",
+                    Toast.LENGTH_SHORT)
+                    .show()
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Failed to upload FirebaseDatabase: ${it.message}}"
+                    , Toast.LENGTH_LONG)
+                    .show()
             }
 
     }
 
 }
+
+class User(val uid : String, val username : String, val profileImageUrl : String)
 
 
 
