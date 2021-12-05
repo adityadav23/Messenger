@@ -12,10 +12,10 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.net.toUri
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import de.hdodenhof.circleimageview.CircleImageView
 import java.util.*
 
 class RegisterActivity : AppCompatActivity() {
@@ -25,9 +25,11 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var registerButton : Button
     private lateinit var alreadyHaveAnAccount : TextView
     private lateinit var selectPhotoButton: Button
+    private lateinit var selectPhotoImageView: CircleImageView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_register)
 
         //Connecting views
         userName = findViewById(R.id.userName_editText_register)
@@ -36,6 +38,7 @@ class RegisterActivity : AppCompatActivity() {
         registerButton = findViewById(R.id.register_button_register)
         alreadyHaveAnAccount = findViewById(R.id.already_have_an_acoount_register)
         selectPhotoButton = findViewById(R.id.selectphoto_button_register)
+        selectPhotoImageView = findViewById(R.id.selectPhoto_imageView_register)
 
         registerButton.setOnClickListener {
             performRegister()
@@ -66,10 +69,12 @@ class RegisterActivity : AppCompatActivity() {
              selectedPhotoUri = data.data
             //getting image using above uri
             val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedPhotoUri)
-            val bitmapDrawable = BitmapDrawable(bitmap)
+            selectPhotoImageView.setImageBitmap(bitmap)
+            selectPhotoButton.alpha = 0f
 
-            //Adding photo to button
-            selectPhotoButton.setBackgroundDrawable(bitmapDrawable)
+//            val bitmapDrawable = BitmapDrawable(bitmap)
+//            //Adding photo to button
+//            selectPhotoButton.setBackgroundDrawable(bitmapDrawable)
 
 
         }
