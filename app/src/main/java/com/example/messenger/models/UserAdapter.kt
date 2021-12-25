@@ -1,14 +1,17 @@
-package com.example.messenger
+package com.example.messenger.models
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.messenger.R
+import com.example.messenger.User
 import com.squareup.picasso.Picasso
 
-class UserAdapter() : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
+class UserAdapter( private val onClickListener: OnClickListener) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
      var data = listOf<User>()
         set(value){
@@ -23,9 +26,11 @@ class UserAdapter() : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
-        val item = data[position]
-        holder.bind( item)
-
+        val user = data[position]
+        holder.bind( user)
+        holder.itemView.setOnClickListener {
+        onClickListener.onCLick(position)
+        }
     }
 
 
@@ -38,9 +43,11 @@ class UserAdapter() : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
         val usernameImage: ImageView = view.findViewById(R.id.username_imageView)
 
         fun bind(
-            item: User) {
+            item: User
+        ) {
             usernameText.text = item.username
             Picasso.get().load(item.profileImageUrl).into(usernameImage)
+
         }
 
         companion object {
@@ -52,5 +59,9 @@ class UserAdapter() : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
         }
     }
 
-}
 
+    class OnClickListener(val clickListener: ( position: Int) -> Unit){
+        fun onCLick(position: Int) = clickListener(position)
+    }
+
+}

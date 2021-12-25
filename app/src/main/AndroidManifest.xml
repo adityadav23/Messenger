@@ -10,32 +10,36 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Messenger">
         <activity
-            android:name=".NewMessageActivity"
-            android:exported="false" >
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value=".NewMessageActivity"/>
+            android:name=".messages.ChatLogActivity"
+            android:exported="false">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".messages.LatestMessagesActivity" />
+    </activity>
+        <activity
+            android:name=".messages.NewMessageActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".messages.NewMessageActivity" />
         </activity>
         <activity
-            android:name=".LatestMessagesActivity"
+            android:name=".messages.LatestMessagesActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".registerlogin.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".RegisterActivity"
             android:exported="true">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+
         </activity>
     </application>
 
