@@ -162,7 +162,7 @@ class RegisterActivity : AppCompatActivity() {
                     .show()
 
                 val intent = Intent(this , LatestMessagesActivity::class.java)
-                //This FLAG clears backStack
+                //This FLAG clears backStack and doesn't bring us back to RegisterActivity
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
 
@@ -177,7 +177,9 @@ class RegisterActivity : AppCompatActivity() {
 
 }
 
-class User(val uid : String, val username : String, val profileImageUrl : String)
+class User(val uid : String, val username : String, val profileImageUrl : String){
+    constructor(): this("","","")
+}
 
 
 

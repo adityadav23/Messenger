@@ -2,4 +2,5 @@
 <resources>
     <string name="hint_username">Username</string>
     <string name="email_address">Email Address</string>
+    <string name="username">Username</string>
 </resources>

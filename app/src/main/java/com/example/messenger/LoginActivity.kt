@@ -1,5 +1,6 @@
 package com.example.messenger
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -55,6 +56,10 @@ class LoginActivity : AppCompatActivity() {
                     //else if successful
                     Toast.makeText(this, "Successful Login ${it.result?.user?.uid}", Toast.LENGTH_SHORT)
                         .show()
+                    val intent = Intent(this , LatestMessagesActivity::class.java)
+                    //This FLAG clears backStack and doesn't bring us back to RegisterActivity
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
                 }
                 .addOnFailureListener {
                     Log.d("Main", "Failed to create user ${it.message}")
