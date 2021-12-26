@@ -1,7 +1,10 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-android-extensions'
+
 }
+
 
 android {
     compileSdk 31
@@ -22,6 +25,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    androidExtensions{
+        experimental = true
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -29,6 +35,8 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+
 }
 
 dependencies {
@@ -54,9 +62,7 @@ dependencies {
     //dependency for circular imageView
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
-    //dependency for groupie for recyclerView
-    implementation "com.xwray:groupie:2.8.0"
-    implementation "com.xwray:groupie-kotlin-android-extensions:2.8.0"
+
     //dependency for picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
 

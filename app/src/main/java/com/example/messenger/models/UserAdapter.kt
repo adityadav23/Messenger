@@ -61,7 +61,7 @@ class UserAdapter( private val onClickListener: OnClickListener) : RecyclerView.
 
 
     class OnClickListener(val clickListener: ( position: Int) -> Unit){
-        fun onCLick(position: Int) = clickListener(position)
+        fun onCLick( position: Int) = clickListener(position)
     }
 
 }

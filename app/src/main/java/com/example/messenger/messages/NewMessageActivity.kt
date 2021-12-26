@@ -18,6 +18,9 @@ class NewMessageActivity : AppCompatActivity()  {
 
     private lateinit var newMessageRecyclerView: RecyclerView
 
+    companion object{
+        val USER_KEY = "user_key"
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_message)
@@ -38,8 +41,6 @@ class NewMessageActivity : AppCompatActivity()  {
                 var userList = mutableListOf<User>()
 
 
-
-
                snapshot.children.forEach {
                     val user = it.getValue(User::class.java)
                    if (user != null) {
@@ -49,6 +50,7 @@ class NewMessageActivity : AppCompatActivity()  {
 
                val adapter = UserAdapter( UserAdapter.OnClickListener{
                   val intent = Intent(applicationContext, ChatLogActivity:: class.java)
+                   intent.putExtra(USER_KEY,userList[it])
                    startActivity(intent)
                    finish()
 

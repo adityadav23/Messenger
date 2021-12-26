@@ -10,4 +10,5 @@
     <string name="login_button">Login</string>
     <string name="back_to_register_activity">Back To Register</string>
     <string name="username">Username</string>
+    <string name="enter_message">Enter Message</string>
 </resources>
