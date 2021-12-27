@@ -19,8 +19,7 @@ class ChatLogActivity : AppCompatActivity() {
     companion object{
        val TAG = "ChatLogActivity"
     }
-
-
+    var toUser: User? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,11 +29,11 @@ class ChatLogActivity : AppCompatActivity() {
         val editTextChatLog: EditText = findViewById(R.id.edittext_chat_log)
 
 
-        val user = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)
-        if(user!=null) {
-            supportActionBar?.title = user.username
+        toUser = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)
+        if(toUser!=null) {
+            supportActionBar?.title = toUser!!.username
         }
-        val adapter = user?.let { ChatAdapter(it) }
+        val adapter = toUser?.let { ChatAdapter(it) }
 
         if (adapter != null) {
             listenForMessages(adapter)
