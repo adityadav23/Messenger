@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import com.example.messenger.R
 import com.example.messenger.RegisterActivity
 import com.example.messenger.User
@@ -30,17 +31,18 @@ class LatestMessagesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_latest_messages)
 
-        recyclerview_latest_messages.adapter = adapter
+
 
         verifyUserIsLoggedIn()
 
         fetchCurrentUser()
 
-      //  listenForLatestMessages()
+        listenForLatestMessages()
 
     }
 
     val latestMessagesMap = HashMap<String, ChatMessage>()
+
 
 
     private fun refreshRecyclerViewMessages() {
@@ -51,8 +53,9 @@ class LatestMessagesActivity : AppCompatActivity() {
     }
 
     private fun listenForLatestMessages() {
-        val fromId = currentUser?.uid
+        val fromId = FirebaseAuth.getInstance().uid
         val ref = FirebaseDatabase.getInstance().getReference("/latest-messages/$fromId")
+
         ref.addChildEventListener(object: ChildEventListener{
 
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
@@ -61,16 +64,16 @@ class LatestMessagesActivity : AppCompatActivity() {
                     latestMessagesMap[snapshot.key!!] = chatMessage
                     refreshRecyclerViewMessages()
                 }
-
-
-                if (adapter != null) {
-                    adapter.chatMessageData = chatMessageList
-                }
-
+                adapter.chatMessageData = chatMessageList
+                recyclerview_latest_messages.adapter = adapter
             }
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                TODO("Not yet implemented")
+                val chatMessage = snapshot.getValue(ChatMessage::class.java)
+                if(chatMessage != null) {
+                    latestMessagesMap[snapshot.key!!] = chatMessage
+                    refreshRecyclerViewMessages()
+                }
             }
 
             override fun onChildRemoved(snapshot: DataSnapshot) {

@@ -41,7 +41,7 @@ class LatestMessageAdapter(): RecyclerView.Adapter<LatestMessageAdapter.LatestMe
         val profileImageView: ImageView = view.findViewById(R.id.imageView_latest_message_row)
 
         fun bind( chatMessage: ChatMessage ) {
-            // nameTextView.text = user.username
+            nameTextView.text = chatMessage.fromId
             messageTextView.text = chatMessage.text
 //            val uri = user.profileImageUrl
 //            Picasso.get().load(uri).into(profileImageView)
