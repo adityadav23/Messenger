@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_chat_log.*
 class ChatLogActivity : AppCompatActivity() {
 
     companion object{
-       val TAG = "ChatLogActivity"
+        val TAG = "ChatLogActivity"
     }
     var toUser: User? = null
 
@@ -44,12 +44,18 @@ class ChatLogActivity : AppCompatActivity() {
 
             performSendMessage()
             editTextChatLog.text.clear()
+            if (adapter != null) {
+                recycler_view_chat_log.scrollToPosition(adapter.itemCount-1)
+            }
         }
 
     }
 
     private fun listenForMessages(adapter: ChatAdapter) {
-        val ref = FirebaseDatabase.getInstance().getReference("/messages")
+        val fromId = FirebaseAuth.getInstance().uid
+        val toId = toUser?.uid
+
+        val ref = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId")
 
 
         ref.addChildEventListener(object: ChildEventListener{
@@ -88,11 +94,11 @@ class ChatLogActivity : AppCompatActivity() {
 
         })
     }
-/*
-This function sends messages with other info like sender and receiver id with timestamp
- */
+    /*
+    This function sends messages with other info like sender and receiver id with timestamp
+     */
     private fun performSendMessage(){
-       val text = edittext_chat_log.text.toString()
+        val text = edittext_chat_log.text.toString()
         //This gets us signed in user Uid
         val fromId = FirebaseAuth.getInstance().uid
         //this gives us the receiver's id
@@ -102,11 +108,17 @@ This function sends messages with other info like sender and receiver id with ti
 
         if(fromId == null) return
 
-        val reference = FirebaseDatabase.getInstance().getReference("/messages").push()
+        val reference = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId").push()
+        val toReference = FirebaseDatabase.getInstance().getReference("/user-messages/$toId/$fromId").push()
+
         val chatMessage = ChatMessage(reference.key!!,text,fromId, toId, System.currentTimeMillis()/1000)
         reference.setValue(chatMessage)
             .addOnSuccessListener {
-                Log.d(TAG, "CHat Message saved at : ${reference.key}")
+                Log.d(TAG, "Chat Message saved at : ${reference.key}")
+            }
+        toReference.setValue(chatMessage)
+            .addOnSuccessListener {
+                Log.d(TAG, "Chat Message saved at : ${toReference.key}")
             }
     }
 }
