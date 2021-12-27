@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.messenger.R
 import com.example.messenger.RegisterActivity
 import com.example.messenger.User
@@ -31,6 +32,9 @@ class LatestMessagesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_latest_messages)
 
+        recyclerview_latest_messages.adapter = adapter
+        recyclerview_latest_messages.addItemDecoration(DividerItemDecoration(this,
+        DividerItemDecoration.VERTICAL))
 
 
         verifyUserIsLoggedIn()
@@ -66,7 +70,6 @@ class LatestMessagesActivity : AppCompatActivity() {
                     refreshRecyclerViewMessages()
                 }
                 adapter.chatMessageData = chatMessageList
-                recyclerview_latest_messages.adapter = adapter
             }
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
