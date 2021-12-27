@@ -11,4 +11,6 @@
     <string name="back_to_register_activity">Back To Register</string>
     <string name="username">Username</string>
     <string name="enter_message">Enter Message</string>
+    <string name="user_added_to_database">User Registered</string>
+    <string name="latest_message">Latest Message</string>
 </resources>

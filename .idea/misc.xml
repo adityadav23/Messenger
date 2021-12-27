@@ -13,6 +13,7 @@
         <entry key="app/src/main/res/layout/activity_new_message.xml" value="0.2171875" />
         <entry key="app/src/main/res/layout/chat_from_row.xml" value="0.2171875" />
         <entry key="app/src/main/res/layout/chat_to_row.xml" value="0.2171875" />
+        <entry key="app/src/main/res/layout/latest_message_row_item.xml" value="0.25" />
         <entry key="app/src/main/res/layout/user_row_new_message.xml" value="0.2171875" />
         <entry key="app/src/main/res/menu/nav_menu.xml" value="0.2171875" />
       </map>

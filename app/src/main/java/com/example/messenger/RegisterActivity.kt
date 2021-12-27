@@ -14,11 +14,13 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.messenger.messages.LatestMessagesActivity
 import com.example.messenger.registerlogin.LoginActivity
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.parcel.Parcelize
+import kotlinx.android.synthetic.main.activity_register.*
 import java.util.*
 
 class RegisterActivity : AppCompatActivity() {
@@ -174,6 +176,7 @@ class RegisterActivity : AppCompatActivity() {
                 Toast.makeText(this, "Failed to upload FirebaseDatabase: ${it.message}}"
                     , Toast.LENGTH_LONG)
                     .show()
+
             }
 
     }
