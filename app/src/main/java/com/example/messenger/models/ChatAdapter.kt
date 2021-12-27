@@ -1,6 +1,5 @@
 package com.example.messenger.models
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.messenger.R
 import com.example.messenger.User
 import com.google.firebase.auth.FirebaseAuth
+import com.squareup.picasso.Picasso
 
-class ChatAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ChatAdapter(val user: User): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var data = listOf<ChatMessage>()
         set(value){
@@ -41,7 +41,7 @@ class ChatAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 .bind(chatMessage)
         } else {
             (holder as ChatFromViewHolder)
-                .bind(chatMessage)
+                .bind(chatMessage, user)
         }
     }
     override fun getItemViewType(position: Int): Int {
@@ -62,9 +62,11 @@ class ChatAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         val chatFromImageView: ImageView = view.findViewById(R.id.imageView_chat_from_row)
 
 
-        fun bind(chatMessage: ChatMessage) {
+        fun bind(chatMessage: ChatMessage, user: User) {
 
             chatFromTextview.text = chatMessage.text
+            val uri = user.profileImageUrl
+            Picasso.get().load(uri).into(chatFromImageView)
         }
     }
 

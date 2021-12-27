@@ -1,17 +1,14 @@
 package com.example.messenger.messages
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
 import com.example.messenger.R
 import com.example.messenger.User
 import com.example.messenger.models.ChatAdapter
 import com.example.messenger.models.ChatMessage
-import com.example.messenger.models.UserAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_chat_log.*
@@ -22,7 +19,9 @@ class ChatLogActivity : AppCompatActivity() {
     companion object{
        val TAG = "ChatLogActivity"
     }
-     val adapter = ChatAdapter()
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_log)
@@ -35,8 +34,11 @@ class ChatLogActivity : AppCompatActivity() {
         if(user!=null) {
             supportActionBar?.title = user.username
         }
+        val adapter = user?.let { ChatAdapter(it) }
 
-        listenForMessages()
+        if (adapter != null) {
+            listenForMessages(adapter)
+        }
         //Setting the button to send message to the database
         sendButtonChatLog.setOnClickListener {
 
@@ -46,7 +48,7 @@ class ChatLogActivity : AppCompatActivity() {
 
     }
 
-    private fun listenForMessages() {
+    private fun listenForMessages(adapter: ChatAdapter) {
         val ref = FirebaseDatabase.getInstance().getReference("/messages")
 
 
@@ -61,7 +63,9 @@ class ChatLogActivity : AppCompatActivity() {
                     chatMessageList.add(chatMessage)
                 }
 
-                adapter.data = chatMessageList
+                if (adapter != null) {
+                    adapter.data = chatMessageList
+                }
                 recycler_view_chat_log.adapter = adapter
 
             }
