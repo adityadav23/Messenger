@@ -56,6 +56,7 @@ class LatestMessagesActivity : AppCompatActivity() {
         val fromId = FirebaseAuth.getInstance().uid
         val ref = FirebaseDatabase.getInstance().getReference("/latest-messages/$fromId")
 
+
         ref.addChildEventListener(object: ChildEventListener{
 
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
