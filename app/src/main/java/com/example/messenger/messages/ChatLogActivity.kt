@@ -33,6 +33,7 @@ class ChatLogActivity : AppCompatActivity() {
         if(toUser!=null) {
             supportActionBar?.title = toUser!!.username
         }
+
         val adapter = toUser?.let { ChatAdapter(it) }
 
         if (adapter != null) {

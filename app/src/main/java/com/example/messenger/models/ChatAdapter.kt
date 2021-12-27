@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.messenger.R
 import com.example.messenger.User
+import com.example.messenger.messages.LatestMessagesActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 
@@ -76,6 +77,10 @@ class ChatAdapter(val user: User): RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         fun bind(chatMessage: ChatMessage) {
             chatToTextview.text = chatMessage.text
+           val uri = LatestMessagesActivity.currentUser?.profileImageUrl
+            Picasso.get().load(uri).into(chatToImageview)
+
+
         }
     }
 }
